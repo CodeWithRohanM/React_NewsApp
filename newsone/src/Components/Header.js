@@ -4,8 +4,8 @@ export default class Header extends Component {
     render() {
         return <>
 
-        <div className="mb-12">
-            <div id="outerContainer" className="container mx-auto flex flex-row justify-between items-center text-3xl p-6 text-black">
+        <div className="mb-12 bg-green-300">
+            <div id="outerContainer" className="container mx-auto flex flex-row justify-between items-center text-3xl p-6 text-black bg-red-300">
 
                 <div id="innerContainer" className = "">
                     <h1>NewsShark</h1>
