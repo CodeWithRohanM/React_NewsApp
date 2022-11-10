@@ -9,7 +9,10 @@ class NewsItem extends Component {
                     <a href={this.props.buttonLink} target="_blank" data-mdb-ripple="true" data-mdb-ripple-color="light">
                         <img className="rounded-t-lg" src={this.props.imageLink} alt="Not Found"/>
                     </a>
-                    <div className="p-6">
+                    <div className="pl-6 pt-3 bg-yellow-300 font-mono text-xs">
+                        <p>Published On: {this.props.getDate}</p>
+                    </div>
+                    <div className="p-6 bg-red-300">
                         <h5 className="text-gray-900 text-xl font-medium mb-2">{this.props.title}...</h5>
                         <p className="text-gray-700 text-base mb-4">
                             {this.props.desc}...

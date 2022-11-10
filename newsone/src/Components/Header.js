@@ -7,21 +7,27 @@ export default class Header extends Component {
 
 
             <div className="mb-12 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
-                <div id="outerContainer" className="container mx-auto flex flex-row justify-between items-center font-bold font-mono p-6 text-white">
+                <div id="outerContainer" className="container mx-auto flex flex-row items-center font-bold font-mono p-6 text-white">
 
-                    <a href="/" id="innerContainer" className="bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 px-4 py-3 rounded-full  hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 hover:cursor-pointer">
+                    <a href="/" id="innerContainer" className="bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 px-4 py-3 rounded-full  hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 hover:cursor-pointer mr-12">
                         <h1>NewsShark</h1>
                     </a>
 
-                    <div className="flex flex-row justify-between gap-5 w-1/3">
+                    <div className="flex flex-row justify-between gap-5 max-w-1/2 items-center text-lg">
 
-                        <Link to="/" className="bg-red-400 px-6 py-2 rounded-t-md">General</Link>
+                        <Link to="/">General</Link>
 
-                        <Link to="/sports" className="bg-red-400 px-6 py-2 rounded-t-md">Sports</Link>
+                        <Link to="/sports">Sports</Link>
 
-                        <Link to="/business" className="bg-red-400 px-6 py-2 rounded-t-md">Business</Link>
+                        <Link to="/business">Business</Link>
                         
-                        <Link to="/health" className="bg-red-400 px-6 py-2 rounded-t-md">Health</Link>
+                        <Link to="/health">Health</Link>
+
+                        <Link to="/entertainment">Entertainment</Link>
+
+                        <Link to="/science">Science</Link>
+
+                        <Link to="/technology">Technology</Link>
 
                     </div>
 

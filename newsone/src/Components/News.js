@@ -10,7 +10,9 @@ class News extends Component{
     static defaultProps = {
         country: "in",
         pageSize: 6,
-        category: "health"
+        category: "health",
+        headline: "NEWS-SHARK TOP HEADLINES",
+        icon: "/Users/rohanmote/Desktop/ReactNewsApp/newsone/src/Components/business.png"
     }
 
     static propTypes = {
@@ -34,10 +36,15 @@ class News extends Component{
     componentDidMount() {
         let p = fetch(`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=870f80a2ef3e4658be13d9e1105466c4&pageSize=${this.props.pageSize}&page=${this.state.pageNumber}`)
 
+        this.setState({
+            loading: true,
+        })
+
         p.then(response => response.json())
             .then(data => this.setState({
                 articles: data.articles,
-                totalResults: data.totalResults
+                totalResults: data.totalResults,
+                loading: false,
             }))
     }
 
@@ -162,8 +169,11 @@ class News extends Component{
         return <>
 
 
-            <div className="flex container mx-auto rounded-full py-6 items-center bg-gradient-to-r from-red-300 via-red-400 to-red-500 text-white font-bold text-5xl justify-center mb-12">
-                <h2>NEWS-SHARK TOP HEADLINES</h2>
+            <div className="flex container flex-row mx-auto rounded-full py-6 items-center bg-gradient-to-r from-red-300 via-red-400 to-red-500 text-white font-bold text-5xl justify-center mb-12">
+                <div className="w-10 h-8 flex items-center mr-6">
+                <img src={this.props.icon} alt="Photo"></img>
+                </div>
+                <h2>{this.props.headline}</h2>
             </div>
 
             {this.state.loading && <Spinner/>}
@@ -178,7 +188,9 @@ class News extends Component{
                         <NewsItem
                             imageLink={element.urlToImage}
                             title={element.title ? element.title.slice(0, 40) : ""}
-                            desc={element.description ? element.description.slice(0, 80) : ""} buttonLink={element.url} />
+                            desc={element.description ? element.description.slice(0, 80) : ""} 
+                            buttonLink={element.url}
+                            getDate = {element.publishedAt} />
                     </div>
                 })}
             </div>
