@@ -31,41 +31,9 @@ class News extends Component{
     }
 
 
+    updateData = (pageUpdate) =>{
 
-
-    componentDidMount() {
-        let p = fetch(`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=870f80a2ef3e4658be13d9e1105466c4&pageSize=${this.props.pageSize}&page=${this.state.pageNumber}`)
-
-        this.setState({
-            loading: true,
-        })
-
-        p.then(response => response.json())
-            .then(data => this.setState({
-                articles: data.articles,
-                totalResults: data.totalResults,
-                loading: false,
-
-            }))
-    }
-
-
-
-
-
-
-    nextButton = () => {
-
-
-
-        console.log("Next");
-
-        if (this.state.pageNumber + 1 > Math.ceil(this.state.totalResults / this.props.pageSize)) {
-            alert("Thats All We Have For Today!!");
-        }
-        else {
-
-            let p = fetch(`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=870f80a2ef3e4658be13d9e1105466c4&pageSize=${this.props.pageSize}&page=${this.state.pageNumber + 1}`);
+            let p = fetch(`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=695bfcf98a114454974e9f5331810cd8&pageSize=${this.props.pageSize}&page=${pageUpdate}`);
 
             this.setState({
                 loading: true,
@@ -74,50 +42,51 @@ class News extends Component{
             p.then(response => response.json())
                 .then(data => this.setState({
                     articles: data.articles,
-                    pageNumber: this.state.pageNumber + 1,
                     loading: false
                 }))
-        }
+        
 
         document.body.scrollTop = 0;
         document.documentElement.scrollTop = 0;
     }
 
 
+
+    componentDidMount() {
+       
+        this.updateData(this.state.pageNumber);
+
+    }
+
+
+    nextButton = () => {
+
+
+            this.setState({
+                pageNumber: this.state.pageNumber + 1,
+            });
+
+            console.log("PageNumber = "+this.state.pageNumber);
+
+            this.updateData(this.state.pageNumber + 1);
+    }
 
     prevButton = () => {
-        document.body.scrollTop = 0;
-        document.documentElement.scrollTop = 0;
-
-
-        let p = fetch(`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=870f80a2ef3e4658be13d9e1105466c4&pageSize=${this.props.pageSize}&page=${this.state.pageNumber - 1}`);
-
+        
         this.setState({
-            loading: true,
+            pageNumber : this.state.pageNumber - 1,
         })
 
-        p.then(response => response.json())
-            .then(data => this.setState({
-                articles: data.articles,
-                pageNumber: this.state.pageNumber - 1,
-                loading: false
-            }))
-        console.log("Previous");
+        this.updateData(this.state.pageNumber - 1);
 
     }
-
-
-
-
-
-
 
     firstPage = () => {
         document.body.scrollTop = 0;
         document.documentElement.scrollTop = 0;
 
 
-        let p = fetch(`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=870f80a2ef3e4658be13d9e1105466c4&pageSize=${this.props.pageSize}&page=1`);
+        let p = fetch(`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=695bfcf98a114454974e9f5331810cd8&pageSize=${this.props.pageSize}&page=1`);
 
         this.setState({
             loading: true,
@@ -131,18 +100,16 @@ class News extends Component{
             }))
         console.log("First Page");
 
-        document.getElementById("first").style.borderTop = "2px solid #5C6BC0";
+        document.getElementById("first").style.borderTop = "2px solid white";
 
     }
-
-
 
     secondPage = () => {
         document.body.scrollTop = 0;
         document.documentElement.scrollTop = 0;
 
 
-        let p = fetch(`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=870f80a2ef3e4658be13d9e1105466c4&pageSize=9&page=2`);
+        let p = fetch(`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=695bfcf98a114454974e9f5331810cd8&pageSize=9&page=2`);
 
         p.then(response => response.json())
             .then(data => this.setState({
@@ -198,7 +165,7 @@ class News extends Component{
                             author = {element.author ? element.author : "Unknown"}
                             getHours = {new Date(element.publishedAt).getHours()}
                             getMinutes = {new Date(element.publishedAt).getSeconds()}
-                            amPm = {new Date(element.publishedAt).getHours() >= 12 ? this.amPM[1]: this.map[0]} />
+                            amPm = {new Date(element.publishedAt).getHours() >= 12 ? this.amPM[1] : this.amPM[0]} />
                     </div>
                 })}
             </div>
@@ -208,10 +175,10 @@ class News extends Component{
                 <button disabled={this.state.pageNumber <= 1} type="button" className="text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 shadow-lg shadow-cyan-500/50 dark:shadow-lg dark:shadow-cyan-800/80 font-medium rounded-lg text-xl px-16 py-2.5 text-center mr-2 mb-2" onClick={this.prevButton}>&laquo;Previous</button>
 
 
-                    <div className="lg:w-3/5 w-full flex items-center justify-between border-t border-gray-200 dark:border-gray-700 bg-blue-300">
+                    <div className="lg:w-3/5 w-full flex items-center justify-between border-t border-black dark:border-gray-700">
                         
-                        <div className="sm:flex hidden">
-                            <p id="first" className="text-sm font-medium leading-none cursor-pointer text-gray-600 dark:text-gray-200  hover:text-indigo-700 dark:hover:text-indigo-400 border-t border-indigo-700 hover:border-indigo-400 pt-3 mr-4 px-2" onClick={this.firstPage}>1</p>
+                        <div className="sm:flex hidden mx-auto">
+                            <p id="first" className="text-sm font-medium leading-none cursor-pointer text-gray-600 dark:text-gray-200  hover:text-indigo-700 dark:hover:text-indigo-400 border-t border-white hover:border-indigo-400 pt-3 mr-4 px-2" onClick={this.firstPage}>1</p>
                             <p id="second" className="text-sm font-medium leading-none cursor-pointer text-gray-600 dark:text-gray-200  hover:text-indigo-700 dark:hover:text-indigo-400 border-t border-transparent hover:border-indigo-400 pt-3 mr-4 px-2" onClick={this.secondPage}>2</p>
                             <p className="text-sm font-medium leading-none cursor-pointer text-gray-600 dark:text-gray-200  hover:text-indigo-700 dark:hover:text-indigo-400 border-t border-transparent hover:border-indigo-400 pt-3 mr-4 px-2">3</p>
                             <p className="text-sm font-medium leading-none cursor-pointer text-gray-600 dark:text-gray-200  hover:text-indigo-700 dark:hover:text-indigo-400 border-t border-transparent hover:border-indigo-400 pt-3 mr-4 px-2">4</p>

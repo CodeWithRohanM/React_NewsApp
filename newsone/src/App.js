@@ -33,7 +33,7 @@ export default class App extends Component {
           <Route exact path="/" element={
             <>
               <Header />
-              <News key="general" geSize={6} category={"general"} county="in" headline={"TOP GENERAL HEADLINES"} icon={General} />
+              <News key="general" pageSize={6} category={"general"} county="in" headline={"TOP GENERAL HEADLINES"} icon={General} />
             </>
           }></Route>
 
