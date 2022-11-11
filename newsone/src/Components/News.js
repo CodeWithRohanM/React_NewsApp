@@ -33,6 +33,8 @@ class News extends Component{
 
     updateData = (pageUpdate) =>{
 
+        document.title = this.props.category;
+
             let p = fetch(`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=695bfcf98a114454974e9f5331810cd8&pageSize=${this.props.pageSize}&page=${pageUpdate}`);
 
             this.setState({
@@ -187,7 +189,7 @@ class News extends Component{
                             <p className="text-sm font-medium leading-none cursor-pointer text-gray-600 dark:text-gray-200  hover:text-indigo-700 dark:hover:text-indigo-400 border-t border-transparent hover:border-indigo-400 pt-3 mr-4 px-2">7</p>
                             <p className="text-sm font-medium leading-none cursor-pointer text-gray-600 dark:text-gray-200  hover:text-indigo-700 dark:hover:text-indigo-400 border-t border-transparent hover:border-indigo-400 pt-3 mr-4 px-2">8</p>
                         </div>
-                        
+                            
                     </div>
 
 
