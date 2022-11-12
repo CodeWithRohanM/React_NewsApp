@@ -30,9 +30,7 @@ import {
 
 
 
-export default class App extends Component {
-  render() {
-
+const App = ()=> {
 
     return <div>
 
@@ -44,49 +42,49 @@ export default class App extends Component {
             <>
 
               <Header />
-              <News key="general" pageSize={6} category={"general"} county="in" headline={"TOP GLOBAL HEADLINES"} icon={General} backgroundImage = {globalImage}/>
+              <News key="general"   pageSize={6} category={"general"} county="in" headline={"TOP GLOBAL HEADLINES"} icon={General} backgroundImage = {globalImage}/>
             </>
           }></Route>
 
           <Route exact path="/sports" element={
             <>
               <Header />
-              <News key="sports" pageSize={6} category={"sports"} county="in" headline={"TOP SPORTS HEADLINES"} icon={Sports} backgroundImage = {sportsImage}/>
+              <News key="sports"   pageSize={6} category={"sports"} county="in" headline={"TOP SPORTS HEADLINES"} icon={Sports} backgroundImage = {sportsImage}/>
             </>
           }></Route>
 
           <Route exact path="/health" element={
             <>
               <Header />
-              <News key="health" pageSize={6} category={"health"} county="in" headline={"TOP HEALTH HEADLINES"} icon={Health} backgroundImage = {healthImage}/>
+              <News key="health"   pageSize={6} category={"health"} county="in" headline={"TOP HEALTH HEADLINES"} icon={Health} backgroundImage = {healthImage}/>
             </>
           }></Route>
 
           <Route exact path="/business" element={
             <>
               <Header />
-              <News key="business" pageSize={6} category={"business"} county="in" headline={"TOP BUSINESS HEADLINES"} icon={Business} backgroundImage = {businessImage}/>
+              <News key="business"   pageSize={6} category={"business"} county="in" headline={"TOP BUSINESS HEADLINES"} icon={Business} backgroundImage = {businessImage}/>
             </>
           }></Route>
 
           <Route exact path="/entertainment" element={
             <>
               <Header />
-              <News key="entertainment" pageSize={6} category={"entertainment"} county="in" headline={"TOP ENTERTAINMENT HEADLINES"} icon={Movie} backgroundImage = {entertainmentImage}/>
+              <News key="entertainment"   pageSize={6} category={"entertainment"} county="in" headline={"TOP ENTERTAINMENT HEADLINES"} icon={Movie} backgroundImage = {entertainmentImage}/>
             </>
           }></Route>
 
           <Route exact path="/science" element={
             <>
               <Header />
-              <News key="science" pageSize={6} category={"science"} county="in" headline={"TOP SCIENCE HEADLINES"} icon={Science} backgroundImage = {scienceImage}/>
+              <News key="science"   pageSize={6} category={"science"} county="in" headline={"TOP SCIENCE HEADLINES"} icon={Science} backgroundImage = {scienceImage}/>
             </>
           }></Route>
 
           <Route exact path="/technology" element={
             <>
               <Header />
-              <News key="technology" pageSize={6} category={"technology"} county="in" headline={"TOP TECHNOLOGY HEADLINES"} icon={Technology} backgroundImage = {technologyImage}/>
+              <News key="technology"   pageSize={6} category={"technology"} county="in" headline={"TOP TECHNOLOGY HEADLINES"} icon={Technology} backgroundImage = {technologyImage}/>
             </>
           }></Route>
 
@@ -96,5 +94,6 @@ export default class App extends Component {
       </Router>
 
     </div>
-  }
 }
+
+export default App;
