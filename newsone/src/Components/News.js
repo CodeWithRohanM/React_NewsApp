@@ -5,7 +5,10 @@ import PropTypes from 'prop-types';
 import InfiniteScroll from "react-infinite-scroll-component";
 import LoadingBar from 'react-top-loading-bar'
 import ProgressBar from 'react-progressbar-on-scroll'
-
+import Clouds from "/Users/rohanmote/Desktop/ReactNewsApp/newsone/src/Components/weatherIcons/clouds.png";
+import Rain from "/Users/rohanmote/Desktop/ReactNewsApp/newsone/src/Components/weatherIcons/rain.png";
+import Sun from "/Users/rohanmote/Desktop/ReactNewsApp/newsone/src/Components/weatherIcons/sun.png";
+import Smoke from "/Users/rohanmote/Desktop/ReactNewsApp/newsone/src/Components/weatherIcons/smoke.png";
 
 
 const News = (props) => {
@@ -15,17 +18,60 @@ const News = (props) => {
     const [loading, setLoading] = useState(true);
     const [totalResults, setTotalResults] = useState(0);
     const [progress, setProgress] = useState(0);
+    const [weatherIcon, setWeatherIcon] = useState("");
+
+    let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+    let amPM = ["AM", "PM"];
+
+    let imagesArray = ["https://images.livemint.com/img/2022/11/11/1600x900/sony_ps5_1668143000346_1668143000526_1668143000526.JPG",
+        "https://images.livemint.com/img/2022/11/11/1600x900/iphone_1613735086854_1613735095175_1668149795151_1668149795151.jpg",
+        "https://images.news18.com/ibnlive/uploads/2022/10/meta-hiring-16646943353x2.jpg", "https://images.livemint.com/img/2022/11/06/1600x900/Elon_Musk_1667742729898_1667742730057_1667742730057.JPG"];
+
+
+    let date = new Date();
+    let getTodaysDate = date.getDate()+" "+months[date.getMonth()]+", "+date.getFullYear();
+
+
+
+    const getWeatherIcon = (data)=>{
+        if(data.weather[0].main === "Clouds")
+        {
+            setWeatherIcon(Clouds);
+        }
+        else if(data.weather[0].main === "Smoke")
+        {
+            setWeatherIcon(Smoke);
+        }
+        else if(data.weather[0].main === "Rain")
+        {
+            setWeatherIcon(Rain);
+        }else if(data.weather[0].main === "Clear")
+        {
+            setWeatherIcon(Sun);
+        }
+
+    }
+
 
 
 
     const updateData = () => {
-        document.title = props.category;
+        document.title = props.category+"-NewsShark";
 
 
         document.body.style.backgroundImage = `url(${props.backgroundImage})`
 
 
         setProgress(10);
+
+        let q = fetch("https://api.openweathermap.org/data/2.5/weather?q=Mumbai&appid=7e2fdaaff06ddb3f0b41c7f1bc48d066&units=metric");
+
+        q.then(response => response.json())
+        .then(data => getWeatherIcon(data));
+
+
+
 
         let p = fetch(`https://newsapi.org/v2/top-headlines?category=${props.category}&country=${props.country}&apiKey=86bce6f6c048499cab427509810ec245&page=${pageNumber}&pageSize=${props.pageSize}`);
 
@@ -91,16 +137,6 @@ const News = (props) => {
     }
 
 
-    let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    let amPM = ["AM", "PM"];
-
-    let imagesArray = ["https://images.livemint.com/img/2022/11/11/1600x900/sony_ps5_1668143000346_1668143000526_1668143000526.JPG",
-        "https://images.livemint.com/img/2022/11/11/1600x900/iphone_1613735086854_1613735095175_1668149795151_1668149795151.jpg",
-        "https://images.news18.com/ibnlive/uploads/2022/10/meta-hiring-16646943353x2.jpg", "https://images.livemint.com/img/2022/11/06/1600x900/Elon_Musk_1667742729898_1667742730057_1667742730057.JPG"];
-
-
-
-
 
     return <>
 
@@ -113,14 +149,8 @@ const News = (props) => {
             gradientColor="#eee"
         />
 
-        <div className="flex container flex-row mx-auto rounded-lg py-4 items-center bg-gradient-to-r from-red-300 via-red-400 to-red-500} text-white font-bold text-5xl justify-center mb-12">
-            <div className="w-14 h-12 flex items-center mr-6">
-                <img src={props.icon} alt="Photo"></img>
-            </div>
-            <h2 className="tracking-wide">{props.headline}</h2>
-        </div>
 
-        <LoadingBar
+<LoadingBar
             color='#FFFF00'
             progress={progress}
             shadow={true}
@@ -128,10 +158,20 @@ const News = (props) => {
             transitionTime={2000}
         />
 
+        <div className="flex container flex-row mx-auto rounded-lg py-4 items-center bg-gradient-to-r from-red-300 via-red-500 to-red-300 text-white font-bold text-5xl justify-center mb-12">
+            <div className="w-14 h-12 flex items-center mr-6">
+                <img src={props.icon} alt="Photo"></img>
+            </div>
+            <h2 className="tracking-wide">{props.headline}</h2>
+        </div>
+
+
+
         {loading && <Spinner />}
 
-        {!loading && <div className="container mx-auto bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-4 py-3 w-1/4 text-white text-2xl font-mono font-bold  hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 hover:cursor-pointer mb-12">
-            <h3 id="updatedPageNumber" className="text-center">Page {pageNumber}</h3>
+        {!loading && <div className="flex flex-row justify-between items-center container mx-auto bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-4 py-3 w-96 text-white text-2xl font-mono font-bold  hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 hover:cursor-pointer mb-12">
+            <h3 id="updatedPageNumber" className="text-center">Today: {getTodaysDate}</h3>
+            <img src={weatherIcon} className="h-12 w-14 flex justify-end"></img>
         </div>}
 
         <InfiniteScroll
