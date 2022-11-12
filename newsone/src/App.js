@@ -42,7 +42,7 @@ export default class App extends Component {
 
           <Route exact path="/" element={
             <>
-            
+
               <Header />
               <News key="general" pageSize={6} category={"general"} county="in" headline={"TOP GLOBAL HEADLINES"} icon={General} backgroundImage = {globalImage}/>
             </>

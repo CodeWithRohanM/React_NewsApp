@@ -4,6 +4,7 @@ import Spinner from "./Spinner";
 import PropTypes from 'prop-types';
 import InfiniteScroll from "react-infinite-scroll-component";
 import LoadingBar from 'react-top-loading-bar'
+import ProgressBar from 'react-progressbar-on-scroll'
 
 
 
@@ -58,9 +59,9 @@ class News extends Component {
                 totalResults: data.totalResults,
             }))
 
-            this.setState({
-                progress: 100,
-            })
+        this.setState({
+            progress: 100,
+        })
     }
 
 
@@ -128,6 +129,14 @@ class News extends Component {
     render() {
         return <>
 
+            <ProgressBar
+                color="#ffff00"
+                height={10}
+                direction="right"
+                position="top"
+                gradient={true}
+                gradientColor="#eee" />
+
             <div className="flex container flex-row mx-auto rounded-lg py-4 items-center bg-gradient-to-r from-red-300 via-red-400 to-red-500} text-white font-bold text-5xl justify-center mb-12">
                 <div className="w-14 h-12 flex items-center mr-6">
                     <img src={this.props.icon} alt="Photo"></img>
@@ -138,9 +147,9 @@ class News extends Component {
             <LoadingBar
                 color='#FFFF00'
                 progress={this.state.progress}
-                shadow = {true}
-                height = {7}
-                transitionTime = {2000}
+                shadow={true}
+                height={7}
+                transitionTime={2000}
             />
 
             {this.state.loading && <Spinner />}
