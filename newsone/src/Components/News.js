@@ -3,6 +3,7 @@ import NewsItem from "./NewsItem";
 import Spinner from "./Spinner";
 import PropTypes from 'prop-types';
 import InfiniteScroll from "react-infinite-scroll-component";
+import LoadingBar from 'react-top-loading-bar'
 
 
 
@@ -29,6 +30,7 @@ class News extends Component {
             pageNumber: 1,
             loading: true,
             totalResults: 0,
+            progress: 0,
         }
 
     }
@@ -41,7 +43,11 @@ class News extends Component {
         document.body.style.backgroundImage = `url(${this.props.backgroundImage})`
 
 
-        let p = fetch(`https://newsapi.org/v2/top-headlines?category=${this.props.category}&country=${this.props.country}&apiKey=870f80a2ef3e4658be13d9e1105466c4&page=${this.state.pageNumber}&pageSize=${this.props.pageSize}`);
+        this.setState({
+            progress: 0,
+        })
+
+        let p = fetch(`https://newsapi.org/v2/top-headlines?category=${this.props.category}&country=${this.props.country}&apiKey=18f4835ddd0d4ea5b259ca55312518f3&page=${this.state.pageNumber}&pageSize=${this.props.pageSize}`);
 
         // let p = fetch(`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=85d88681698f4adea8c080ffeb8893fd&pageSize=${this.props.pageSize}&page=${pageUpdate}`);
 
@@ -51,6 +57,10 @@ class News extends Component {
                 loading: false,
                 totalResults: data.totalResults,
             }))
+
+            this.setState({
+                progress: 100,
+            })
     }
 
 
@@ -92,7 +102,7 @@ class News extends Component {
         })
 
 
-        let p = fetch(`https://newsapi.org/v2/top-headlines?category=${this.props.category}&country=${this.props.country}&apiKey=870f80a2ef3e4658be13d9e1105466c4&page=${this.state.pageNumber+1}&pageSize=${this.props.pageSize}`);
+        let p = fetch(`https://newsapi.org/v2/top-headlines?category=${this.props.category}&country=${this.props.country}&apiKey=18f4835ddd0d4ea5b259ca55312518f3&page=${this.state.pageNumber + 1}&pageSize=${this.props.pageSize}`);
 
 
         p.then(response => response.json())
@@ -124,6 +134,14 @@ class News extends Component {
                 </div>
                 <h2 className="tracking-wide">{this.props.headline}</h2>
             </div>
+
+            <LoadingBar
+                color='#FFFF00'
+                progress={this.state.progress}
+                shadow = {true}
+                height = {7}
+                transitionTime = {2000}
+            />
 
             {this.state.loading && <Spinner />}
 
