@@ -2,6 +2,7 @@ import { Component } from "react";
 import NewsItem from "./NewsItem";
 import Spinner from "./Spinner";
 import PropTypes from 'prop-types';
+import InfiniteScroll from "react-infinite-scroll-component";
 
 
 
@@ -24,72 +25,83 @@ class News extends Component {
     constructor() {
         super();
         this.state = {
-            results: [],
+            articles: [],
             pageNumber: 1,
-            loading: false,
+            loading: true,
+            totalResults: 0,
         }
 
     }
 
 
-    updateData = (pageUpdate) => {
+    updateData = () => {
         document.title = this.props.category;
+
 
         document.body.style.backgroundImage = `url(${this.props.backgroundImage})`
 
 
-        let p = fetch(`https://newsdata.io/api/1/news?category=${this.props.category}&apikey=pub_13375a2d4d41f12559c66607598f29b2f7501&language=en&country=${this.props.country}&page=${pageUpdate}`);
+        let p = fetch(`https://newsapi.org/v2/top-headlines?category=${this.props.category}&country=${this.props.country}&apiKey=870f80a2ef3e4658be13d9e1105466c4&page=${this.state.pageNumber}&pageSize=${this.props.pageSize}`);
 
         // let p = fetch(`https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=85d88681698f4adea8c080ffeb8893fd&pageSize=${this.props.pageSize}&page=${pageUpdate}`);
 
-        this.setState({
-            loading: true,
-        })
-
         p.then(response => response.json())
             .then(data => this.setState({
-                results: data.results,
-                loading: false
+                articles: data.articles,
+                loading: false,
+                totalResults: data.totalResults,
             }))
-
-        document.body.scrollTop = 0;
-        document.documentElement.scrollTop = 0;
     }
 
 
 
     componentDidMount() {
 
-        this.updateData(this.state.pageNumber);
+        this.updateData();
 
     }
 
 
-    nextButton = () => {
+    // nextButton = () => {
 
 
+    //     this.setState({
+    //         pageNumber: this.state.pageNumber + 1,
+    //     });
+
+    //     console.log("PageNumber = " + this.state.pageNumber);
+
+    //     this.updateData(this.state.pageNumber + 1);
+    // }
+
+    // prevButton = () => {
+
+    //     this.setState({
+    //         pageNumber: this.state.pageNumber - 1,
+    //     })
+
+    //     this.updateData(this.state.pageNumber - 1);
+
+    // }
+
+
+
+    fetchMoreData = () => {
         this.setState({
             pageNumber: this.state.pageNumber + 1,
-        });
-
-        console.log("PageNumber = " + this.state.pageNumber);
-
-        this.updateData(this.state.pageNumber + 1);
-    }
-
-    prevButton = () => {
-
-        this.setState({
-            pageNumber: this.state.pageNumber - 1,
         })
 
-        this.updateData(this.state.pageNumber - 1);
+
+        let p = fetch(`https://newsapi.org/v2/top-headlines?category=${this.props.category}&country=${this.props.country}&apiKey=870f80a2ef3e4658be13d9e1105466c4&page=${this.state.pageNumber+1}&pageSize=${this.props.pageSize}`);
+
+
+        p.then(response => response.json())
+            .then(data => this.setState({
+                articles: this.state.articles.concat(data.articles),
+                totalResults: data.totalResults,
+            }))
 
     }
-
-
-
-
 
 
     months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -106,7 +118,7 @@ class News extends Component {
     render() {
         return <>
 
-            <div className="flex container flex-row mx-auto rounded-lg py-4 items-center bg-gradient-to-r from-red-300 via-red-400 to-red-500 text-white font-bold text-5xl justify-center mb-12">
+            <div className="flex container flex-row mx-auto rounded-lg py-4 items-center bg-gradient-to-r from-red-300 via-red-400 to-red-500} text-white font-bold text-5xl justify-center mb-12">
                 <div className="w-14 h-12 flex items-center mr-6">
                     <img src={this.props.icon} alt="Photo"></img>
                 </div>
@@ -119,28 +131,38 @@ class News extends Component {
                 <h3 id="updatedPageNumber" className="text-center">Page {this.state.pageNumber}</h3>
             </div>}
 
-            <div className="grid grid-cols-3 gap-6 container mx-auto">
-                {!this.state.loading && this.state.results.map((element) => {
-                    return <div className="col-span-1" key={element.link}>
-                        <NewsItem
-                            imageLink={element.image_url ? element.image_url : this.imagesArray[Math.floor(Math.random() * this.imagesArray.length)]}
-                            title={element.title ? element.title.slice(0, 40) : ""}
-                            desc={element.description ? element.description.slice(0, 80) : ""}
-                            buttonLink={element.link}
-                            getMonth={this.months[new Date(element.pubDate).getMonth()]}
-                            getDate={new Date(element.pubDate).getDate()}
-                            getYear={new Date(element.pubDate).getFullYear()}
-                            author={element.creator ? element.creator : "Unknown"}
-                            getHours={new Date(element.pubDate).getHours()}
-                            getMinutes={new Date(element.pubDate).getSeconds()}
-                            amPm={new Date(element.pubDate).getHours() >= 12 ? this.amPM[1] : this.amPM[0]} />
-                    </div>
-                })}
-            </div>
+            <InfiniteScroll
+                dataLength={this.state.articles.length}
+                next={this.fetchMoreData}
+                hasMore={this.state.articles.length !== this.state.totalResults}
+                loader={<Spinner />}
+            >
+
+
+                <div className="grid grid-cols-3 gap-6 container mx-auto">
+                    {!this.state.loading && this.state.articles.map((element) => {
+                        return <div className="col-span-1" key={element.link}>
+                            <NewsItem
+                                urlToImage={element.urlToImage ? element.urlToImage : this.imagesArray[Math.floor(Math.random() * this.imagesArray.length)]}
+                                title={element.title ? element.title.slice(0, 40) : ""}
+                                desc={element.description ? element.description.slice(0, 80) : ""}
+                                url={element.url}
+                                getMonth={this.months[new Date(element.publishedAt).getMonth()]}
+                                getDate={new Date(element.publishedAt).getDate()}
+                                getYear={new Date(element.publishedAt).getFullYear()}
+                                author={element.author ? element.author : "Unknown"}
+                                getHours={new Date(element.publishedAt).getHours()}
+                                getMinutes={new Date(element.publishedAt).getSeconds()}
+                                amPm={new Date(element.publishedAt).getHours() >= 12 ? this.amPM[1] : this.amPM[0]} />
+                        </div>
+                    })}
+                </div>
+            </InfiniteScroll>
+
 
             <div className="flex flex-row container mx-auto justify-between my-12 p-12 items-center">
 
-                <button disabled={this.state.pageNumber <= 1} type="button" className="text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 shadow-lg shadow-cyan-500/50 dark:shadow-lg dark:shadow-cyan-800/80 font-medium rounded-lg text-xl px-16 py-2.5 text-center mr-2 mb-2" onClick={this.prevButton}>&laquo;Previous</button>
+                <button disabled={this.state.pageNumber <= 1} type="button" className="text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 shadow-lg shadow-cyan-500/50 dark:shadow-lg dark:shadow-cyan-800/80 font-medium rounded-lg text-xl px-16 py-2.5 text-center mr-2 mb-2">&laquo;Previous</button>
 
 
                 <div className="lg:w-3/5 w-full flex items-center justify-between border-t border-black dark:border-gray-700">
@@ -160,7 +182,7 @@ class News extends Component {
 
 
 
-                <button disabled={this.state.pageNumber + 1 > Math.ceil(this.state.totalResults / this.props.pageSize)} type="button" className="text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 shadow-lg shadow-cyan-500/50 dark:shadow-lg dark:shadow-cyan-800/80 font-medium rounded-lg text-xl px-16 py-2.5 text-center mr-2 mb-2" onClick={this.nextButton}>Next&raquo;</button>
+                <button disabled={this.state.pageNumber + 1 > Math.ceil(this.state.totalResults / this.props.pageSize)} type="button" className="text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 shadow-lg shadow-cyan-500/50 dark:shadow-lg dark:shadow-cyan-800/80 font-medium rounded-lg text-xl px-16 py-2.5 text-center mr-2 mb-2">Next&raquo;</button>
             </div>
 
 

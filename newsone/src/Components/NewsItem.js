@@ -7,8 +7,8 @@ class NewsItem extends Component {
             <div className="flex justify-center mt-12">
 
                 <div className="rounded-lg shadow-lg bg-white max-w-sm hover:bg-gradient-to-br focus:ring-8 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg hover:cursor-pointer hover:shadow-2xl shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80">
-                    <a href={this.props.buttonLink} target="_blank" data-mdb-ripple="true" data-mdb-ripple-color="light">
-                        <img className="rounded-t-lg" src={this.props.imageLink} alt="Not Found" />
+                    <a href={this.props.url} target="_blank" data-mdb-ripple="true" data-mdb-ripple-color="light">
+                        <img className="rounded-t-lg" src={this.props.urlToImage} alt="Not Found" />
                     </a>
 
                     <div className="flow-root px-6 pt-3 font-mono text-xs">

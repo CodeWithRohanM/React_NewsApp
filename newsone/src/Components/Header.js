@@ -31,13 +31,13 @@ export default class Header extends Component {
 
                     </div>
 
-                    <div className="flex flex-row justify-between w-1/3 ml-12">
+                    <div className="flex flex-row gap-4 w-1/3 ml-12">
                         <div>
-                            <a href="#" className="bg-gradient-to-r from-red-300 via-red-400 to-red-500 px-fit px-12 py-2 rounded-full   hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80">Subscribe</a>
+                            <a href="#" className="flex justify-start bg-gradient-to-r from-red-300 via-red-400 to-red-500 px-fit px-12 py-2 rounded-full   hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80">Subscribe</a>
                         </div>
 
                         <div>
-                            <a href="#" className="bg-gradient-to-l from-red-300 via-red-400 to-red-500 px-3 py-2 rounded-full   hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80">Sign In</a>
+                            <a href="#" className="flex justify-end bg-gradient-to-l from-red-300 via-red-400 to-red-500 px-3 py-2 rounded-full   hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 shadow-lg shadow-red-500/50 dark:shadow-lg dark:shadow-red-800/80">Sign In</a>
                         </div>
                     </div>
                 </div>
